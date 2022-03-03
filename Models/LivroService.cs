@@ -75,27 +75,19 @@ namespace Biblioteca.Models
                     .ToList();
             }
         }
-        public IActionResult Listagem(string tipoFiltro, string filtro)
-        {
-            //Adicionado verificação de Login para realiza a listagem de emprestimo
-            Autenticacao.CheckLogin(this);
-            FiltrosEmprestimos objFiltro = null;
-            if (!string.IsNullOrEmpty(filtro))
-            {
-                objFiltro = new FiltrosEmprestimos();
-                objFiltro.Filtro = filtro;
-                objFiltro.TipoFiltro = tipoFiltro;
-            }
-
-            EmprestimoService emprestimoService = new EmprestimoService();
-            return View(emprestimoService.ListarTodos(objFiltro));
-        }
-
         public Livro ObterPorId(int id)
         {
             using (BibliotecaContext bc = new BibliotecaContext())
             {
                 return bc.Livros.Find(id);
+            }
+        }
+        public void ExcluirLivro(int id)
+        {
+            using (BibliotecaContext bc = new BibliotecaContext())
+            {
+                bc.Livros.Remove(bc.Livros.Find(id));
+                bc.SaveChanges();
             }
         }
     }

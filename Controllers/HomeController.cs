@@ -22,6 +22,7 @@ namespace Biblioteca.Controllers
         public IActionResult Index()
         {
             Autenticacao.CheckLogin(this);
+            ViewData["mensagem"] = "Seja bem vindo ao sistema de controle de empréstimo de livros!";
             return View();
         }
 
@@ -33,33 +34,20 @@ namespace Biblioteca.Controllers
         [HttpPost]
         public IActionResult Login(string login, string senha)
         {
-            if (login != "admin" || senha != "123")
+            if (Autenticacao.verificarLoginSenha(login, senha, this))
             {
-                ViewData["Erro"] = "Senha inválida";
-                return View();
+                return RedirectToAction("Index");
             }
             else
             {
-                HttpContext.Session.SetString("user", "admin");
-                return RedirectToAction("Index");
+                ViewData["Erro"] = "Senha inválida";
+                return View();
             }
         }
 
         public IActionResult Privacy()
         {
             return View();
-        }
-        public IActionResult Listagem(string tipoFiltro, string filtro)
-        {
-            //Adicionado verificação de Login para realiza a listagem de emprestimo
-            Autenticacao.CheckLogin(this);
-            FiltrosEmprestimos objFiltro = null;
-            if (!string.IsNullOrEmpty(filtro))
-            {
-                objFiltro = new FiltrosEmprestimos();
-                objFiltro.Filtro = filtro;
-                objFiltro.TipoFiltro = tipoFiltro;
-            }
         }
     }
 }

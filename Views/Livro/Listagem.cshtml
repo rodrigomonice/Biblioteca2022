@@ -18,51 +18,65 @@
             <div class="form-group mb-2 mx-sm-3">
                 <input type="text" placeholder="Filtro" name="Filtro" class="form-control" />
             </div>
+            <div>
+                <select name="itensPorPagina" id="itensPorPagina">
+                    <option value="10">10 livros</option>
+                    <option value="15">15 livros</option>
+                    <option value="30">30 livros</option>
+                    <option value="50">50 livros</option>
+                    <option value=@Model.Count>Todos</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary mb-2">Pesquisar</button>
+            <div id="SeletorPaginas">
+                <span>Página</span>
+                @for (int i = 1; i <= NumTotalDePag; i++)
+                {
+                    <span><a href="/Livro/Listagem?PaginaAtual=@i">@i,</a></span>
+                }
+            </div>
         </form>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-12">
-        @if (@Model.Count != 0)
-        {
-            <table class="table table-success table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Titulo</th>
-                        <th>Autor</th>
-                        <th>Ano</th>
-                        <th></th>
-                    </tr>
-                </thead>
-
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titulo</th>
+                    <th>Autor</th>
+                    <th>Ano</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @if (Model.Count > 0)
+            {
                 <tbody>
-                    @for (int i = (PaginaAtual - 1) * NumLivrosPorPag;
-                   i < (NumLivrosPorPag * PaginaAtual < Model.Count ? NumLivrosPorPag * PaginaAtual : Model.Count); i++)
+                    @for (int i = (PaginaAtual - 1) * NumLivrosPorPag; i
+                   < (NumLivrosPorPag * PaginaAtual < Model.Count ? NumLivrosPorPag * PaginaAtual : Model.Count); i++)
                     {
                         <tr>
-                            <td>@Model[i].Id</td>
-                            <td>@Model[i].Titulo</td>
-                            <td>@Model[i].Autor</td>
-                            <td>@Model[i].Ano</td>
+                            <td>Model[i].Id</td>
+                            <td>Model[i].Titulo</td>
+                            <td>Model[i].Autor</td>
+                            <td>Model[i].Ano</td>
                             <td><a href="/Livro/Edicao/@Model[i].Id">Editar</a></td>
                         </tr>
                     }
                 </tbody>
-            </table>
-            <div class="text-center mt-5" id="SeletorPaginas">
-                <span>Página:</span>
-                @for (int i = 1; i <= NumTotalDePag; i++)
-                {
-                    <span><a href="/Livro/Listagem?PaginaAtual=@i">@i, </a></span>
-                }
-            </div>
-        }
-        else
-        {
-            <h2>Nenhum registro encontrado</h2>
-        }
+            }
+            else
+            {
+
+                <tbody>
+                    <tr>
+                        <td colspan="5">Nenhum registro foi encontrado</td>
+                    </tr>
+                </tbody>
+
+            }
+        </table>
     </div>
 </div>

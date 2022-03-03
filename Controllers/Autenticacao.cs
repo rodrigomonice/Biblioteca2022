@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Biblioteca.Models;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Biblioteca.Controllers
 {
@@ -18,10 +20,8 @@ namespace Biblioteca.Controllers
             using (BibliotecaContext bc = new BibliotecaContext())
             {
                 verificarSeUsuarioAdminExiste(bc);
-
                 senha = Criptografo.TextoCriptografado(senha);
-
-                IQueryable<Usuario> UsuarioEncontrado = bc.usuarios.Where(u => u.login == login && u.senha == senha);
+                IQueryable<Usuario> UsuarioEncontrado = bc.Usuarios.Where(u => u.Login == login && u.Senha == senha);
                 List<Usuario> ListaUsuarioEncontrado = UsuarioEncontrado.ToList();
 
                 if (ListaUsuarioEncontrado.Count == 0)
@@ -30,28 +30,37 @@ namespace Biblioteca.Controllers
                 }
                 else
                 {
-                    controller.HttpContext.Session.SetString("login", ListaUsuarioEncontrado[0].login);
+                    controller.HttpContext.Session.SetString("login", ListaUsuarioEncontrado[0].Login);
                     controller.HttpContext.Session.SetString("Nome", ListaUsuarioEncontrado[0].Nome);
-                    controller.HttpContext.Session.SetInt32("tipo", ListaUsuarioEncontrado[0].tipo);
+                    controller.HttpContext.Session.SetInt32("tipo", ListaUsuarioEncontrado[0].Tipo);
                     return true;
                 }
             }
         }
+
+
         public static void verificarSeUsuarioAdminExiste(BibliotecaContext bc)
         {
-            IQueryable<Usuario> userEncontrado = bc.usuarios.Where(u => u.login == "admin");
+            IQueryable<Usuario> userEncontrado = bc.Usuarios.Where(u => u.Login == "admin");
 
             //Se não existir será criado o usuario admin padrão
             if (userEncontrado.ToList().Count == 0)
             {
                 Usuario admin = new Usuario();
-                admin.login = "admin";
-                admin.senha = Criptografo.TextoCriptografado("123");
-                admin.tipo = Usuario.ADMIN;
+                admin.Login = "admin";
+                admin.Senha = Criptografo.TextoCriptografado("123");
+                admin.Tipo = Usuario.ADMIN;
                 admin.Nome = "Administrador";
 
-                bc.usuarios.Add(admin);
+                bc.Usuarios.Add(admin);
                 bc.SaveChanges();
+            }
+        }
+        public static void verificaSeUsuarioEAdmin(Controller controller)
+        {
+            if (!(controller.HttpContext.Session.GetInt32("tipo") == Usuario.ADMIN))
+            {
+                controller.Request.HttpContext.Response.Redirect("/Usuario/NeedAdmin");
             }
         }
     }
