@@ -74,21 +74,21 @@ namespace Biblioteca.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Login")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<string>("Nome")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Senha")
+                    b.Property<string>("login")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int>("Tipo")
+                    b.Property<string>("senha")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("tipo")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuarios");
+                    b.ToTable("usuarios");
                 });
 
             modelBuilder.Entity("Biblioteca.Models.Emprestimo", b =>

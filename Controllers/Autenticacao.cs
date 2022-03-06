@@ -10,7 +10,7 @@ namespace Biblioteca.Controllers
     {
         public static void CheckLogin(Controller controller)
         {
-            if (string.IsNullOrEmpty(controller.HttpContext.Session.GetString("user")))
+            if (string.IsNullOrEmpty(controller.HttpContext.Session.GetString("login")))
             {
                 controller.Request.HttpContext.Response.Redirect("/Home/Login");
             }

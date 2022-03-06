@@ -26,7 +26,7 @@ namespace Biblioteca.Controllers
         [HttpPost]
         public IActionResult editarUsuario(Usuario userEditado)
         {
-            userEditado.Senha = Criptografo.TextoCriptografado(userEditado.Senha);
+            //userEditado.Senha = Criptografo.TextoCriptografado(userEditado.Senha);
             UsuarioService us = new UsuarioService();
             us.editarUsuario(userEditado);
             return RedirectToAction("ListaDeUsuarios");

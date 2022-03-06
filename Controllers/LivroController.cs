@@ -49,7 +49,7 @@ namespace Biblioteca.Controllers
                 objFiltro.Filtro = filtro;
                 objFiltro.TipoFiltro = tipoFiltro;
             }
-            ViewData["livroPorPagina"] = (string.IsNullOrEmpty(itensPorPagina) ? 10 : int.Parse(itensPorPagina));
+            ViewData["livrosPorPagina"] = (string.IsNullOrEmpty(itensPorPagina) ? 10 : int.Parse(itensPorPagina));
             ViewData["PaginaAtual"] = (PaginaAtual != 0 ? PaginaAtual : 1);
             LivroService livroService = new LivroService();
             return View(livroService.ListarTodos(objFiltro));
@@ -62,9 +62,9 @@ namespace Biblioteca.Controllers
             Livro l = ls.ObterPorId(id);
             return View(l);
         }
-        public IActionResult ExcluirLivro(int id)
-        {
-            return RedirectToAction("Listagem");
-        }
+        //public IActionResult ExcluirLivro(int id)
+        //{
+        //    return RedirectToAction("Listagem");
+        //}
     }
 }

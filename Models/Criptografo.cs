@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using System;
 namespace Biblioteca.Models
 {
     public class Criptografo

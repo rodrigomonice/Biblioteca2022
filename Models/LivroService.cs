@@ -82,13 +82,13 @@ namespace Biblioteca.Models
                 return bc.Livros.Find(id);
             }
         }
-        public void ExcluirLivro(int id)
-        {
-            using (BibliotecaContext bc = new BibliotecaContext())
-            {
-                bc.Livros.Remove(bc.Livros.Find(id));
-                bc.SaveChanges();
-            }
-        }
+        //public void ExcluirLivro(int id)
+        //{
+        //    using (BibliotecaContext bc = new BibliotecaContext())
+        //    {
+        //        bc.Livros.Remove(bc.Livros.Find(id));
+        //        bc.SaveChanges();
+        //    }
+        //}
     }
 }
